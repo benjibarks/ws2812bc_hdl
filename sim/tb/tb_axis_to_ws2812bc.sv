@@ -11,13 +11,22 @@ localparam FIFO_DEPTH = 128;
 localparam NUM_LEDS = 8;
 
 logic aclk, areset;
-logic [TDATA_WIDTH-1:0] tstrb;
+logic [TDATA_WIDTH-1:0] tdata;
 logic [TSTRB_WIDTH-1:0] tstrb;
 logic tvalid, tlast, tready;
 
 logic [NUM_LEDS:0] Din;
 
-// AXI-S
+// AXI-S VIP
+axi4stream_vip_0 axis_vip (
+    .aclk(aclk),
+    .aresetn(aresetn),
+    .m_axis_tvalid(tvalid),
+    .m_axis_tready(tready),
+    .m_axis_tdata(tdata),
+    .m_axis_tstrb(tstrb),
+    .m_axis_tlast(tlast)
+);
 
 // LED string
 generate 
