@@ -1,16 +1,16 @@
 `timescale 1ns/1ps
 
 module ws2812bc #(
-    parameter NAME="Light 1",
-    parameter T0H_MIN=4,
-    parameter T0H_MAX=7,
-    parameter T1H_MIN=1,
-    parameter T1H_MAX=3,
-    parameter T0L_MIN=1,
-    parameter T0L_MAX=3,
-    parameter T1L_MIN=4,
-    parameter T1L_MAX=7,
-    parameter RESET_TIME=20
+    parameter NAME ="Light 1",
+    parameter T0H_MIN = 4,// In timescale units
+    parameter T0H_MAX = 7,// In timescale units
+    parameter T1H_MIN = 1,// In timescale units
+    parameter T1H_MAX = 3,// In timescale units
+    parameter T0L_MIN = 1,// In timescale units
+    parameter T0L_MAX = 3,// In timescale units
+    parameter T1L_MIN = 4,// In timescale units
+    parameter T1L_MAX = 7,// In timescale units
+    parameter RESET_TIME = 20 // In timescale units
 ) (
     input Din,
     output Dout
@@ -31,7 +31,7 @@ initial begin
             starttime <= $time;
             totaltime <= 0;
             maxtime <= RESET_TIME;
-            while (Din == 0 and totaltime < maxtime) begin
+            while (Din == 0 and totaltime <= maxtime) begin
                 #1;
                 totaltime <= $time - starttime;
             end
@@ -48,7 +48,7 @@ initial begin
             starttime <= $time;
             totaltime <= 0;
             maxtime <= T0H_MAX > T1H_MAX ? T0H_MAX : T1H_MAX;
-            while (Din == 0 and totaltime < maxtime) begin
+            while (Din == 0 and totaltime <= maxtime) begin
                 #1;
                 totaltime <= $time - starttime;
             end
@@ -67,7 +67,7 @@ initial begin
             starttime <= $time;
             totaltime <= 0;
             maxtime <= T0L_MAX > T1L_MAX ? T0L_MAX : T1L_MAX;
-            while (Din == 0 and totaltime < maxtime) begin
+            while (Din == 0 and totaltime <= maxtime) begin
                 #1;
                 totaltime <= $time - starttime;
             end
