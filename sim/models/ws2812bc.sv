@@ -1,20 +1,24 @@
 `timescale 1ns/1ps
 
+import ws2812bc_pkg::*;
+
 module ws2812bc #(
-    parameter NAME ="Light 1",
-    parameter T0H_MIN = 4,// In timescale units
-    parameter T0H_MAX = 7,// In timescale units
-    parameter T1H_MIN = 1,// In timescale units
-    parameter T1H_MAX = 3,// In timescale units
-    parameter T0L_MIN = 1,// In timescale units
-    parameter T0L_MAX = 3,// In timescale units
-    parameter T1L_MIN = 4,// In timescale units
-    parameter T1L_MAX = 7,// In timescale units
-    parameter RESET_TIME = 20 // In timescale units
+    parameter NAME ="LED 0"
 ) (
     input Din,
     output Dout
 );
+
+localparam timescale = 1000000000;
+localparam T0H_MIN = $rtoi(T0H_MIN_SEC * timescale);
+localparam T0H_MAX = $rtoi(T0H_MAX_SEC * timescale);
+localparam T1H_MIN = $rtoi(T1H_MIN_SEC * timescale);
+localparam T1H_MAX = $rtoi(T1H_MAX_SEC * timescale);
+localparam T0L_MIN = $rtoi(T0L_MIN_SEC * timescale);
+localparam T0L_MAX = $rtoi(T0L_MAX_SEC * timescale);
+localparam T1L_MIN = $rtoi(T1L_MIN_SEC * timescale);
+localparam T1L_MAX = $rtoi(T1L_MAX_SEC * timescale);
+localparam RESET_TIME = $rtoi(RESET_TIME_SEC * timescale);
 
 integer i = 0;
 integer starttime, endtime, maxtime;

@@ -7,10 +7,10 @@ module axis_to_ws2812bc #(
     parameter TSTRB_WIDTH = 3,
     parameter R_BYTE_INDEX = 0,
     parameter G_BYTE_INDEX = 1,
-    parameter B_BYTE_INDEX = 2
+    parameter B_BYTE_INDEX = 2,
 
     // FIFO Params
-    parameter FIFO_DEPTH = 1024;
+    parameter FIFO_DEPTH = 1024
 ) (
     // Clock and reset
     input logic aclk,
@@ -21,7 +21,7 @@ module axis_to_ws2812bc #(
     input logic [TSTRB_WIDTH-1:0] tstrb,
     input logic tvalid,
     input logic tlast,
-    output logic tready
+    output logic tready,
 
     // WS2812B/C data
     output logic Dout
