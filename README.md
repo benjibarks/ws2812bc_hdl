@@ -1,2 +1,2 @@
-# ws2812_hdl
-WS2812 driver implemented in HDL for FPGA
+# ws2812bx_hdl
+WS2812B/C driver implemented in HDL for FPGA
