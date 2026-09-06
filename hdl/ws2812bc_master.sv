@@ -25,10 +25,10 @@ localparam T1H_CLKS = $rtoi(T1H * FREQ_HZ);
 localparam T1L_CLKS = $rtoi(T1L * FREQ_HZ);
 localparam RESET_CLKS = $rtoi(RESET_TIME * FREQ_HZ);
 
-enum logic {IDLE, SEND_0_HI, SEND_0_LO, SEND_1_HI, SEND_1_LO, SEND_RESET} ws2812_states;
+typedef enum logic [2:0] {IDLE, SEND_0_HI, SEND_0_LO, SEND_1_HI, SEND_1_LO, SEND_RESET} ws2812_states;
 
 ws2812_states sm_vec;
-unsigned [COUNTER_WIDTH-1:0] counter;
+logic unsigned [COUNTER_WIDTH-1:0] counter;
 
 // State machine transitions
 always @ (posedge clk) begin
@@ -37,12 +37,13 @@ always @ (posedge clk) begin
     end else begin
         case (sm_vec)
             IDLE:
-                if (color_empty == 1'b0 and end_frame == 1'b1) begin
+                if (color_empty == 1'b0 && end_frame == 1'b1) begin
                     sm_vec <= SEND_RESET;
-                end if (color_empty == 1'b0 and grb_color == 1'b0) begin
+                end else if (color_empty == 1'b0 && grb_color == 1'b0) begin
                     sm_vec <= SEND_0_HI;
-                end else if (color_empty == 1'b0 and gb_color == 1'b1) begin
+                end else if (color_empty == 1'b0 && grb_color == 1'b1) begin
                     sm_vec <= SEND_1_HI;
+                end
 
             SEND_0_HI:
                 if (counter == T0H_CLKS) begin
@@ -94,31 +95,40 @@ always @ (posedge clk) begin
     end else begin
         case (sm_vec)
             IDLE:
+            begin
                 color_pop <= ~color_empty;
                 counter <= 0;
+            end
 
             SEND_0_HI:
+            begin
                 Dout <= 1'b1;
                 counter <= counter < T0H ? counter + 1 : 0;
+            end
 
             SEND_0_LO:
+            begin
                 Dout <= 1'b0;
                 counter <= counter < T0L ? counter + 1 : 0;
+            end
                 
             SEND_1_HI:
+            begin
                 Dout <= 1'b1;
                 counter <= counter < T1H ? counter + 1 : 0;
+            end
 
             SEND_1_LO:
+            begin
                 Dout <= 1'b0;
                 counter <= counter < T1L ? counter + 1 : 0;
+            end
 
             SEND_RESET:
+            begin
                 Dout <= 1'b0;
                 counter <= counter < RESET_TIME ? counter + 1 : 0;
-
-            default:
-                // Do nothing
+            end
 
         endcase
     end

@@ -42,13 +42,14 @@ logic end_frame_out;
 assign serial_fifo_data_in = {end_frame_in, color_data_serial_in};
 assign serial_fifo_data_out = {end_frame_out, color_data_serial_out};
 
-axis_slave_ws2812bc axis_slave #(
+axis_slave_ws2812bc #(
     .TDATA_WIDTH(TDATA_WIDTH),
     .TSTRB_WIDTH(TSTRB_WIDTH),
     .R_BYTE_INDEX(R_BYTE_INDEX),
     .G_BYTE_INDEX(G_BYTE_INDEX),
     .B_BYTE_INDEX(B_BYTE_INDEX)
-) (
+) 
+axis_slave (
     // Clock and reset
     .aclk(aclk),
     .aresetn(aresetn),
@@ -67,26 +68,47 @@ axis_slave_ws2812bc axis_slave #(
     .serial_data_push(serial_data_push)
 );
 
-oh_fifo_sync serial_fifo #(
-    .DW(2),      //FIFO width
+oh_fifo_sync #(
+    .N(2),      //FIFO width
 	.DEPTH(FIFO_DEPTH),       //FIFO depth
-) (
+    .SHAPE("TALL")     // hard macro shape (square, tall, wide),
+) 
+serial_fifo (
+    //basic interface
     .clk(aclk), // clock
     .nreset(aresetn), // active high async reset 
-    .din(serial_fifo_data_in), // data to write
+    .clear(1'b0), //clear fifo statemachine (sync)
+    //write port
+    .wr_din(serial_fifo_data_in), // data to write
     .wr_en(serial_data_push), // write fifo
+    .wr_full(serial_data_full), // fifo full
+    .wr_almost_full(), //one entry left
+    .wr_prog_full(), // fifo is almost full
+    //read port
+    .rd_dout(serial_fifo_data_out), // output data (next cycle)
     .rd_en(serial_fifo_pop), // read fifo
-    .dout(serial_fifo_data_out), // output data (next cycle)
-    .full(serial_data_full), // fifo full
-    .prog_full(), // fifo is almost full
-    .empty(serial_fifo_empty), // fifo is empty  
-    .rd_count()     // valid entries in fifo
+    .rd_empty(serial_fifo_empty), // fifo is empty 
+    // BIST interface
+    .bist_en(1'b0), // bist enable
+    .bist_we(1'b0), // write enable global signal
+    .bist_wem('b0), // write enable vector
+    .bist_addr('b0), // address
+    .bist_din('b0), // data input
+    .bist_dout('b0), // data input
+    // Power/repair (hard macro only)
+    .shutdown(1'b0), // shutdown signal
+    .vss(1'b0), // ground signal
+    .vdd(1'b1), // memory array power
+    .vddio(1'b0), // periphery/io power
+    .memconfig('b0), // generic memory config
+    .memrepair('b0) // repair vector
  );
 
-ws2812bc_master ws_master #(
+ws2812bc_master #(
     // Clock frequency in Hz
-    .FREQ_HZ(FREQ_HZ);
-) (
+    .FREQ_HZ(FREQ_HZ)
+) 
+ws_master (
     // Clock and reset
     .clk(aclk),
     .resetn(aresetn),

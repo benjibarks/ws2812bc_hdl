@@ -29,18 +29,19 @@ axi4stream_vip_0 axis_vip (
 );
 
 // LED string
+genvar i;
 generate 
-    for (integer i = 0; i < NUM_LEDS; i++) begin
-        ws2812bc led #(
+    for (i = 0; i < NUM_LEDS; i++) begin
+        ws2812bc #(
             .NAME($sformatf("LED %d", i))
-        ) (
+        ) led (
             .Din(Din[i]),
             .Dout(Din[i+1])
         );
     end
 endgenerate
 
-axis_to_ws2812bc DUT #(
+axis_to_ws2812bc #(
     // Clock frequency in Hz
     .FREQ_HZ(FREQ_HZ),
 
@@ -53,7 +54,7 @@ axis_to_ws2812bc DUT #(
 
     // FIFO Params
     .FIFO_DEPTH(FIFO_DEPTH)
-) (
+) DUT (
     // Clock and reset
     .aclk(aclk),
     .aresetn(aresetn),
@@ -62,7 +63,7 @@ axis_to_ws2812bc DUT #(
     .tdata(tdata),
     .tstrb(tstrb),
     .tvalid(tvalid),
-    .last(last),
+    .tlast(last),
     .tready(tready),
 
     // WS2812B/C data

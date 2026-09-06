@@ -24,21 +24,21 @@ module axis_slave_ws2812bc #(
     output logic serial_data_push
 );
 
-localparam G_START_BIT = G_BYTE*8;
-localparam R_START_BIT = R_BYTE*8;
-localparam B_START_BIT = B_BYTE*8;
+localparam G_START_BIT = G_BYTE_INDEX*8;
+localparam R_START_BIT = R_BYTE_INDEX*8;
+localparam B_START_BIT = B_BYTE_INDEX*8;
 
-localparam color_indices [2:0] = {G_START_BIT, R_START_BIT, B_START_BIT};
-localparam color_byte_indices [2:0] = {G_BYTE, R_BYTE, B_BYTE};
+localparam integer color_indices [2:0] = {G_START_BIT, R_START_BIT, B_START_BIT};
+localparam integer color_byte_indices [2:0] = {G_BYTE_INDEX, R_BYTE_INDEX, B_BYTE_INDEX};
 
-enum logic {INIT, IDLE, SERIALIZE_DATA, RECEIVE_DATA, SEND_EOF} axis_states;
+typedef enum logic [2:0] {INIT, IDLE, SERIALIZE_DATA, RECEIVE_DATA, SEND_EOF} axis_states;
 
 axis_states sm_vec;
 logic last_word;
 logic [TDATA_WIDTH-1:0] current_data;
 logic [TSTRB_WIDTH-1:0] current_strb;
-unsigned [2:0] bit_ptr;
-unsigned [1:0] byte_ptr;
+logic unsigned [2:0] bit_ptr;
+logic unsigned [1:0] byte_ptr;
 
 // State machine transitions
 always @ (posedge aclk) begin
@@ -115,6 +115,7 @@ always @ (posedge aclk) begin
                 end
 
             SERIALIZE_DATA:
+            begin
                 color_data_serial <= current_data[color_indices[byte_ptr] + bit_ptr]
                                     & current_strb[color_byte_indices[byte_ptr]];
                 serial_data_push <= ~serial_data_full;
@@ -129,8 +130,10 @@ always @ (posedge aclk) begin
                     bit_ptr <= bit_ptr;
                     byte_ptr <= byte_ptr;
                 end
+            end
 
             RECEIVE_DATA:
+            begin
                 bit_ptr <= 0;
                 byte_ptr <= 0;
                 serial_data_push <= 1'b0;
@@ -140,15 +143,15 @@ always @ (posedge aclk) begin
                     last_word <= tlast;
                     tready <= 1'b0;
                 end
+            end
 
             SEND_EOF:
+            begin
                 end_frame <= 1'b1;
                 color_data_serial <= 1'b0;
                 serial_data_push <= ~serial_data_full;
                 tready <= 1'b1;
-        
-            default:
-                // Do nothing
+            end
 
         endcase
     end

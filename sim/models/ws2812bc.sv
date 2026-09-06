@@ -21,21 +21,21 @@ localparam T1L_MAX = $rtoi(T1L_MAX_SEC * timescale);
 localparam RESET_TIME = $rtoi(RESET_TIME_SEC * timescale);
 
 integer i = 0;
-integer starttime, endtime, maxtime;
+integer starttime, totaltime, maxtime;
 reg currentval;
 reg [7:0] currentcolor;
 
-Dout <= i == 24 ? Din : 1b'0;
+assign Dout = i == 24 ? Din : 1'b0;
 
 initial begin
 
     while(1) begin
 
-        if (Din == 0 and i > 0) begin
+        if (Din == 0 && i > 0) begin
             starttime <= $time;
             totaltime <= 0;
             maxtime <= RESET_TIME;
-            while (Din == 0 and totaltime <= maxtime) begin
+            while (Din == 0 && totaltime <= maxtime) begin
                 #1;
                 totaltime <= $time - starttime;
             end
@@ -52,17 +52,17 @@ initial begin
             starttime <= $time;
             totaltime <= 0;
             maxtime <= T0H_MAX > T1H_MAX ? T0H_MAX : T1H_MAX;
-            while (Din == 0 and totaltime <= maxtime) begin
+            while (Din == 0 && totaltime <= maxtime) begin
                 #1;
                 totaltime <= $time - starttime;
             end
 
-            if (totaltime >= T0H_MIN and totaltime <= T0H_MAX) begin
+            if (totaltime >= T0H_MIN && totaltime <= T0H_MAX) begin
                 currentval <= 1'b0;
-            end else if (totaltime >= T1H_MIN and totaltime <= T1H_MAX) begin
+            end else if (totaltime >= T1H_MIN && totaltime <= T1H_MAX) begin
                 currentval <= 1'b1;
             end else begin
-                $display("ERROR: Invalid HI time")
+                $display("ERROR: Invalid HI time");
                 currentval <= 1'bX;
                 currentcolor[i] <= 1'bX;
             end
@@ -71,17 +71,17 @@ initial begin
             starttime <= $time;
             totaltime <= 0;
             maxtime <= T0L_MAX > T1L_MAX ? T0L_MAX : T1L_MAX;
-            while (Din == 0 and totaltime <= maxtime) begin
+            while (Din == 0 && totaltime <= maxtime) begin
                 #1;
                 totaltime <= $time - starttime;
             end
 
-            if (currentval == 1'b0 && totaltime >= T0L_MIN and totaltime <= T0L_MAX) begin
+            if (currentval == 1'b0 && totaltime >= T0L_MIN && totaltime <= T0L_MAX) begin
                 currentcolor[i] <= 1'b0;
-            end else if (currentval == 1'b1 && totaltime >= T1L_MIN and totaltime <= T1L_MAX) begin
+            end else if (currentval == 1'b1 && totaltime >= T1L_MIN && totaltime <= T1L_MAX) begin
                 currentcolor[i] <= 1'b1;
             end else if (currentval != 1'bX) begin
-                $display("ERROR: Invalid LO time")
+                $display("ERROR: Invalid LO time");
                 currentcolor[i] <= 1'bX;
             end
 

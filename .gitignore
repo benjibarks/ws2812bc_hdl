@@ -1,3 +1,5 @@
 examples/*/vivado_project
 vivado.log
 vivado.jou
+modelsim.ini
+sim/axis_to_ws2812bc/work
