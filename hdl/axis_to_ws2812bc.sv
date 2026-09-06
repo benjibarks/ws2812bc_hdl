@@ -32,6 +32,7 @@ logic [1:0] serial_fifo_data_out;
 logic serial_fifo_push;
 logic serial_fifo_pop;
 logic serial_fifo_full;
+logic serial_fifo_afull;
 logic serial_fifo_empty;
 
 logic color_data_serial_in;
@@ -39,9 +40,13 @@ logic end_frame_in;
 logic color_data_serial_out;
 logic end_frame_out;
 
+logic serial_data_full_or_afull;
+
 assign serial_fifo_data_in = {end_frame_in, color_data_serial_in};
 assign end_frame_out = serial_fifo_data_out[1];
 assign color_data_serial_out = serial_fifo_data_out[0];
+
+assign serial_data_full_or_afull = serial_data_afull | serial_data_full;
 
 axis_slave_ws2812bc #(
     .TDATA_WIDTH(TDATA_WIDTH),
@@ -63,7 +68,7 @@ axis_slave (
     .tready(tready),
 
     // Serializer/FIFO
-    .serial_data_full(serial_data_full),
+    .serial_data_full(serial_data_full_or_afull),
     .color_data_serial(color_data_serial_in),
     .end_frame(end_frame_in),
     .serial_data_push(serial_data_push)
@@ -84,7 +89,7 @@ serial_fifo (
     .wr_din(serial_fifo_data_in), // data to write
     .wr_en(serial_data_push), // write fifo
     .wr_full(serial_data_full), // fifo full
-    .wr_almost_full(), //one entry left
+    .wr_almost_full(serial_data_afull), //one entry left
     .wr_prog_full(), // fifo is almost full
     //read port
     .rd_dout(serial_fifo_data_out), // output data (next cycle)

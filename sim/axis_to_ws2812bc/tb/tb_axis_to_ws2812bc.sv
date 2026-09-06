@@ -12,6 +12,7 @@ localparam B_BYTE_INDEX = 0;
 localparam FIFO_DEPTH = 128;
 
 localparam NUM_LEDS = 8;
+localparam NUM_REFRESH = 1;
 
 localparam CLK_PERIOD = (1000000000 / FREQ_HZ);
 localparam HALF_PERIOD = CLK_PERIOD / 2;
@@ -21,6 +22,8 @@ logic aresetn = 1'b0;
 logic [TDATA_WIDTH-1:0] tdata;
 logic [TSTRB_WIDTH-1:0] tstrb;
 logic tvalid, tlast, tready;
+
+logic [24:0] tdata_3d [NUM_LEDS-1:0] [NUM_REFRESH-1:0]
 
 logic [NUM_LEDS:0] Din;
 
@@ -57,6 +60,7 @@ axi4stream_vip_0_mst_t  axi4stream_vip_0_mst;
 axi4stream_transaction wr_transaction;
 initial begin : START_axi4stream_vip_0_MASTER
     axi4stream_vip_0_mst = new("axi4stream_vip_0_mst", tb_axis_to_ws3812bc.axis_vip.inst.IF);
+    axi4stream_vip_0_mst.set_verbosity(400);
     axi4stream_vip_0_mst.start_master();
 
     #(20 * CLK_PERIOD);
@@ -65,8 +69,23 @@ initial begin : START_axi4stream_vip_0_MASTER
     
     wr_transaction = axi4stream_vip_0_mst.driver.create_transaction("Master VIP write transaction");
     wr_transaction.set_xfer_alignment(XIL_AXI4STREAM_XFER_RANDOM);
-    WR_TRANSACTION_FAIL: assert(wr_transaction.randomize());
-    axi4stream_vip_0_mst.driver.send(wr_transaction);
+    for (int j = 0; j < NUM_REFRESH; j++) begin
+        for(int i = 0; i < NUM_LEDS; i++) begin
+            WR_TRANSACTION_FAIL: assert(wr_transaction.randomize());
+            wr_transaction.get_data(tdata_3d[j][i]);
+            wr_transaction.set_delay(0);
+            wr_transaction.set_strb({1'b1, 1'b1, 1'b1});
+            if(i == NUM_LEDS-1) begin
+                // set tlast to 1
+                wr_transaction.set_last(1);
+            end else begin
+                // set tlast to 0
+                wr_transaction.set_last(0);
+            end
+            axi4stream_vip_0_mst.driver.send(wr_transaction);
+        end
+        #1000;
+    end
 end
 
 axis_to_ws2812bc #(
