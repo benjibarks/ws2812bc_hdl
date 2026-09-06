@@ -92,42 +92,49 @@ always @ (posedge clk) begin
     if (resetn == 1'b0) begin
         Dout <= 1'b0;
         color_pop <= 1'b0;
+        counter <= 0;
     end else begin
         case (sm_vec)
             IDLE:
             begin
                 color_pop <= ~color_empty;
+                Dout <= 1'b0;
                 counter <= 0;
             end
 
             SEND_0_HI:
             begin
+                color_pop <= 1'b0;
                 Dout <= 1'b1;
-                counter <= counter < T0H ? counter + 1 : 0;
+                counter <= counter < T0H_CLKS ? counter + 1 : 0;
             end
 
             SEND_0_LO:
             begin
+                color_pop <= 1'b0;
                 Dout <= 1'b0;
-                counter <= counter < T0L ? counter + 1 : 0;
+                counter <= counter < T0L_CLKS ? counter + 1 : 0;
             end
                 
             SEND_1_HI:
             begin
+                color_pop <= 1'b0;
                 Dout <= 1'b1;
-                counter <= counter < T1H ? counter + 1 : 0;
+                counter <= counter < T1H_CLKS ? counter + 1 : 0;
             end
 
             SEND_1_LO:
             begin
+                color_pop <= 1'b0;
                 Dout <= 1'b0;
-                counter <= counter < T1L ? counter + 1 : 0;
+                counter <= counter < T1L_CLKS ? counter + 1 : 0;
             end
 
             SEND_RESET:
             begin
+                color_pop <= 1'b0;
                 Dout <= 1'b0;
-                counter <= counter < RESET_TIME ? counter + 1 : 0;
+                counter <= counter < RESET_CLKS ? counter + 1 : 0;
             end
 
         endcase

@@ -5,9 +5,9 @@ module axis_to_ws2812bc #(
     // AXI-S Data bus format
     parameter TDATA_WIDTH = 24,
     parameter TSTRB_WIDTH = 3,
-    parameter R_BYTE_INDEX = 0,
+    parameter R_BYTE_INDEX = 2,
     parameter G_BYTE_INDEX = 1,
-    parameter B_BYTE_INDEX = 2,
+    parameter B_BYTE_INDEX = 0,
 
     // FIFO Params
     parameter FIFO_DEPTH = 1024
@@ -27,8 +27,8 @@ module axis_to_ws2812bc #(
     output logic Dout
 );
 
-logic serial_fifo_data_in;
-logic serial_fifo_data_out;
+logic [1:0] serial_fifo_data_in;
+logic [1:0] serial_fifo_data_out;
 logic serial_fifo_push;
 logic serial_fifo_pop;
 logic serial_fifo_full;
@@ -40,7 +40,8 @@ logic color_data_serial_out;
 logic end_frame_out;
 
 assign serial_fifo_data_in = {end_frame_in, color_data_serial_in};
-assign serial_fifo_data_out = {end_frame_out, color_data_serial_out};
+assign end_frame_out = serial_fifo_data_out[1];
+assign color_data_serial_out = serial_fifo_data_out[0];
 
 axis_slave_ws2812bc #(
     .TDATA_WIDTH(TDATA_WIDTH),
@@ -71,7 +72,8 @@ axis_slave (
 oh_fifo_sync #(
     .N(2),      //FIFO width
 	.DEPTH(FIFO_DEPTH),       //FIFO depth
-    .SHAPE("TALL")     // hard macro shape (square, tall, wide),
+    .SHAPE("TALL"),     // hard macro shape (square, tall, wide),
+    .REG(0)
 ) 
 serial_fifo (
     //basic interface

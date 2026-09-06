@@ -2,9 +2,9 @@ module axis_slave_ws2812bc #(
     // AXI-S Data bus format
     parameter TDATA_WIDTH = 24,
     parameter TSTRB_WIDTH = 3,
-    parameter R_BYTE_INDEX = 0,
+    parameter R_BYTE_INDEX = 2,
     parameter G_BYTE_INDEX = 1,
-    parameter B_BYTE_INDEX = 2
+    parameter B_BYTE_INDEX = 0
 ) (
     // Clock and reset
     input logic aclk,
@@ -28,8 +28,8 @@ localparam G_START_BIT = G_BYTE_INDEX*8;
 localparam R_START_BIT = R_BYTE_INDEX*8;
 localparam B_START_BIT = B_BYTE_INDEX*8;
 
-localparam integer color_indices [2:0] = {G_START_BIT, R_START_BIT, B_START_BIT};
-localparam integer color_byte_indices [2:0] = {G_BYTE_INDEX, R_BYTE_INDEX, B_BYTE_INDEX};
+localparam integer color_indices [2:0] = {B_START_BIT, R_START_BIT, G_START_BIT};
+localparam integer color_byte_indices [2:0] = {B_BYTE_INDEX, R_BYTE_INDEX, G_BYTE_INDEX};
 
 typedef enum logic [2:0] {INIT, IDLE, SERIALIZE_DATA, RECEIVE_DATA, SEND_EOF} axis_states;
 
@@ -43,7 +43,7 @@ logic unsigned [1:0] byte_ptr;
 // State machine transitions
 always @ (posedge aclk) begin
     if (aresetn == 1'b0) begin
-        sm_vec <= IDLE;
+        sm_vec <= INIT;
     end else begin
         case (sm_vec)
             INIT:
@@ -51,13 +51,13 @@ always @ (posedge aclk) begin
 
             IDLE:
                 if (tvalid == 1'b1) begin
-                    sm_vec <= RECEIVE_DATA;
+                    sm_vec <= SERIALIZE_DATA;
                 end else begin
                     sm_vec <= IDLE;
                 end
 
             SERIALIZE_DATA:
-                if (byte_ptr == 2 && bit_ptr == 7 && serial_data_full == 1'b0) begin
+                if (byte_ptr == 2 && bit_ptr == 0 && serial_data_full == 1'b0) begin
                     if (last_word == 1'b1) begin
                         sm_vec <= SEND_EOF;
                     end else begin
@@ -76,7 +76,7 @@ always @ (posedge aclk) begin
 
             SEND_EOF:
                 if (serial_data_full == 1'b0) begin
-                    sm_vec <= IDLE;
+                    sm_vec <= INIT;
                 end else begin
                     sm_vec <= SEND_EOF;
                 end
@@ -98,10 +98,16 @@ always @ (posedge aclk) begin
 
         bit_ptr <= 0;
         byte_ptr <= 0;
+        current_data <= 'b0;
+        current_strb <= 'b0;
+        last_word <= 1'b0;
     end else begin
         case (sm_vec)
             INIT:
+            begin
                 tready <= 1'b1;
+                serial_data_push <= 1'b0;
+            end
 
             IDLE:
                 if (tvalid == 1'b1) begin
@@ -110,7 +116,7 @@ always @ (posedge aclk) begin
                     last_word <= tlast;
                     tready <= 1'b0;
 
-                    bit_ptr <= 0;
+                    bit_ptr <= 7;
                     byte_ptr <= 0;
                 end
 
@@ -119,13 +125,17 @@ always @ (posedge aclk) begin
                 color_data_serial <= current_data[color_indices[byte_ptr] + bit_ptr]
                                     & current_strb[color_byte_indices[byte_ptr]];
                 serial_data_push <= ~serial_data_full;
-                if (serial_data_full == 1'b0 && byte_ptr < 2 && bit_ptr < 7) begin
+                if (serial_data_full == 1'b0 && byte_ptr == 2 && bit_ptr == 0) begin
                     if (last_word == 1'b0) begin
                         tready <= 1'b1;
                     end
                 end else if (serial_data_full == 1'b0) begin
-                    bit_ptr <= bit_ptr + 1;
-                    byte_ptr <= byte_ptr + 1;
+                    if (bit_ptr == 0) begin
+                        bit_ptr <= 7;
+                        byte_ptr <= byte_ptr + 1;
+                    end else begin
+                        bit_ptr <= bit_ptr - 1;
+                    end
                 end else begin
                     bit_ptr <= bit_ptr;
                     byte_ptr <= byte_ptr;
@@ -134,7 +144,7 @@ always @ (posedge aclk) begin
 
             RECEIVE_DATA:
             begin
-                bit_ptr <= 0;
+                bit_ptr <= 7;
                 byte_ptr <= 0;
                 serial_data_push <= 1'b0;
                 if (tvalid == 1'b1) begin
