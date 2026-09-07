@@ -1,6 +1,6 @@
 import ws2812bc_pkg::*;
 
-module ws2812bc_master #(
+module ws2812bc_master_serial_in #(
     // Clock frequency in Hz
     parameter FREQ_HZ = 100000000
 ) (
@@ -29,6 +29,7 @@ typedef enum logic [2:0] {IDLE, SEND_0_HI, SEND_0_LO, SEND_1_HI, SEND_1_LO, SEND
 
 ws2812_states sm_vec;
 logic unsigned [COUNTER_WIDTH-1:0] counter;
+logic send_eof;
 
 // State machine transitions
 always @ (posedge clk) begin
@@ -37,7 +38,7 @@ always @ (posedge clk) begin
     end else begin
         case (sm_vec)
             IDLE:
-                if (color_empty == 1'b0 && end_frame == 1'b1) begin
+                if (send_eof == 1'b1) begin
                     sm_vec <= SEND_RESET;
                 end else if (color_empty == 1'b0 && grb_color == 1'b0) begin
                     sm_vec <= SEND_0_HI;
@@ -93,13 +94,15 @@ always @ (posedge clk) begin
         Dout <= 1'b0;
         color_pop <= 1'b0;
         counter <= 0;
+        send_eof <= 1'b0;
     end else begin
         case (sm_vec)
             IDLE:
             begin
-                color_pop <= ~color_empty;
+                color_pop <= ~color_empty & ~send_eof;
                 Dout <= 1'b0;
                 counter <= 0;
+                send_eof <= end_frame;
             end
 
             SEND_0_HI:

@@ -11,7 +11,7 @@ localparam TSTRB_WIDTH = 3;
 localparam R_BYTE_INDEX = 2;
 localparam G_BYTE_INDEX = 1;
 localparam B_BYTE_INDEX = 0;
-localparam FIFO_DEPTH = 128;
+localparam FIFO_DEPTH = 256;
 
 localparam NUM_LEDS = 8;
 localparam NUM_REFRESH = 4;

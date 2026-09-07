@@ -1,0 +1,1 @@
+create_project sim_axis_to_ws2812bc ./vivado_project -part xc7z020clg400-1
