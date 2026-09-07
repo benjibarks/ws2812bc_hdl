@@ -106,7 +106,14 @@ always @ (posedge aclk) begin
             INIT:
             begin
                 tready <= 1'b1;
-                serial_data_push <= 1'b0;
+                color_data_serial <= 1'b0;
+                end_frame <= 1'b0;
+                serial_data_push <= 1'b0;    
+                bit_ptr <= 0;
+                byte_ptr <= 0;
+                current_data <= 'b0;
+                current_strb <= 'b0;
+                last_word <= 1'b0;            
             end
 
             IDLE:
@@ -160,7 +167,6 @@ always @ (posedge aclk) begin
                 end_frame <= 1'b1;
                 color_data_serial <= 1'b0;
                 serial_data_push <= ~serial_data_full;
-                tready <= 1'b1;
             end
 
         endcase

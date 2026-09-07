@@ -14,7 +14,7 @@ localparam B_BYTE_INDEX = 0;
 localparam FIFO_DEPTH = 128;
 
 localparam NUM_LEDS = 8;
-localparam NUM_REFRESH = 1;
+localparam NUM_REFRESH = 4;
 
 localparam CLK_PERIOD = (1000000000 / FREQ_HZ);
 localparam HALF_PERIOD = CLK_PERIOD / 2;
@@ -80,7 +80,7 @@ axi4stream_vip_0_mst_t  axi4stream_vip_0_mst;
 axi4stream_transaction wr_transaction;
 initial begin : START_axi4stream_vip_0_MASTER
     axi4stream_vip_0_mst = new("axi4stream_vip_0_mst", tb_axis_to_ws3812bc.axis_vip.inst.IF);
-    axi4stream_vip_0_mst.set_verbosity(400);
+    axi4stream_vip_0_mst.set_verbosity(200);
     axi4stream_vip_0_mst.start_master();
 
     #(20 * CLK_PERIOD);
