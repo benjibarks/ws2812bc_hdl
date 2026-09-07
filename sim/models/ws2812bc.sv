@@ -6,7 +6,10 @@ module ws2812bc #(
     parameter NAME ="LED 0"
 ) (
     input logic Din,
-    output logic Dout
+    output logic Dout,
+
+    output logic done,
+    output logic [0:23] color_out
 );
 
 localparam timescale = 1000000000;
@@ -23,9 +26,11 @@ localparam RESET_TIME = $rtoi(RESET_TIME_SEC * timescale);
 integer i = 0;
 integer starttime = 0, totaltime = 0, maxtime = 0;
 logic currentval = 1'b0;
-logic [0:23] currentcolor = 'b0;
+logic [0:23] currentcolor = 'bz;
 
 assign Dout = i == 24 ? Din : 1'b0;
+assign done = i == 24;
+assign color_out = i == 24 ? currentcolor : 'bz;
 
 always begin
 
@@ -40,6 +45,7 @@ always begin
 
         if (totaltime >= RESET_TIME) begin
             $display("RESET detected on %s!", NAME);
+            currentcolor = 'bz;
             i = 0;
         end
     end else if (Din == 1 && i < 24) begin
@@ -50,7 +56,7 @@ always begin
         starttime = $time;
         totaltime = 0;
         maxtime = T0H_MAX > T1H_MAX ? T0H_MAX : T1H_MAX;
-        while (Din == 1 && totaltime <= maxtime) begin
+        while (Din == 1 && totaltime < maxtime) begin
             #1;
             totaltime = $time - starttime;
         end
@@ -68,8 +74,8 @@ always begin
         // LO time
         starttime = $time;
         totaltime = 0;
-        maxtime = T0L_MAX > T1L_MAX ? T0L_MAX : T1L_MAX;
-        while (Din == 0 && totaltime <= maxtime) begin
+        maxtime = currentval == 1'b0 ? T0L_MAX : T1L_MAX;
+        while (Din == 0 && totaltime < maxtime) begin
             #1;
             totaltime = $time - starttime;
         end
