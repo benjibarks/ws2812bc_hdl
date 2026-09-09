@@ -1,7 +1,12 @@
 module ws2812bc_master_parallel_in #(
     // Clock frequency in Hz
     parameter FREQ_HZ = 100000000,
-    parameter DATA_WIDTH = 24
+    parameter DATA_WIDTH = 24,
+    parameter T0H = 300, // Time in nanoseconds
+    parameter T1H = 790, // Time in nanoseconds
+    parameter T0L = 790, // Time in nanoseconds
+    parameter T1L = 790, // Time in nanoseconds
+    parameter RESET_TIME = 280000 // Time in nanoseconds
 ) (
     // Clock and reset
     input logic clk,
@@ -52,7 +57,12 @@ oh_par2ser #(
 
 ws2812bc_master_serial_in #(
     // Clock frequency in Hz
-    .FREQ_HZ(FREQ_HZ)
+    .FREQ_HZ(FREQ_HZ),
+    .T0H(T0H),// Time in nanoseconds
+    .T1H(T1H),// Time in nanoseconds
+    .T0L(T0L),// Time in nanoseconds
+    .T1L(T1L),// Time in nanoseconds
+    .RESET_TIME(RESET_TIME)// Time in nanoseconds
 ) ws_master_serial (
     // Clock and reset
     .clk(clk),

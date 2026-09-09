@@ -1,8 +1,10 @@
-import ws2812bc_pkg::*;
-
 module ws2812bc_master_serial_in #(
-    // Clock frequency in Hz
-    parameter FREQ_HZ = 100000000
+    parameter FREQ_HZ = 100000000, // In Hz
+    parameter T0H = 300, // Time in nanoseconds
+    parameter T1H = 790, // Time in nanoseconds
+    parameter T0L = 790, // Time in nanoseconds
+    parameter T1L = 790, // Time in nanoseconds
+    parameter RESET_TIME = 280000 // Time in nanoseconds
 ) (
     // Clock and reset
     input logic clk,
@@ -18,12 +20,13 @@ module ws2812bc_master_serial_in #(
     output logic Dout
 );
 
-localparam COUNTER_WIDTH = 32;
-localparam T0H_CLKS = $rtoi(T0H * FREQ_HZ);
-localparam T0L_CLKS = $rtoi(T0L * FREQ_HZ);
-localparam T1H_CLKS = $rtoi(T1H * FREQ_HZ);
-localparam T1L_CLKS = $rtoi(T1L * FREQ_HZ);
-localparam RESET_CLKS = $rtoi(RESET_TIME * FREQ_HZ);
+localparam T0H_CLKS = $rtoi($ceil(($itor(T0H) / 1000000000) * FREQ_HZ));
+localparam T0L_CLKS = $rtoi($ceil(($itor(T0L) / 1000000000) * FREQ_HZ));
+localparam T1H_CLKS = $rtoi($ceil(($itor(T1H) / 1000000000) * FREQ_HZ));
+localparam T1L_CLKS = $rtoi($ceil(($itor(T1L) / 1000000000) * FREQ_HZ));
+localparam RESET_CLKS = $rtoi($ceil(($itor(RESET_TIME) / 1000000000) * FREQ_HZ));
+
+localparam COUNTER_WIDTH = $clog2(RESET_CLKS);
 
 typedef enum logic [2:0] {IDLE, SEND_0_HI, SEND_0_LO, SEND_1_HI, SEND_1_LO, SEND_RESET} ws2812_states;
 
@@ -47,35 +50,35 @@ always @ (posedge clk) begin
                 end
 
             SEND_0_HI:
-                if (counter == T0H_CLKS) begin
+                if (counter == T0H_CLKS-1) begin
                     sm_vec <= SEND_0_LO;
                 end else begin
                     sm_vec <= SEND_0_HI;
                 end
 
             SEND_0_LO:
-                if (counter == T0L_CLKS) begin
+                if (counter == T0L_CLKS-2) begin // -2 to account for lo time in idle
                     sm_vec <= IDLE;
                 end else begin
                     sm_vec <= SEND_0_LO;
                 end
 
             SEND_1_HI:
-                if (counter == T1H_CLKS) begin
+                if (counter == T1H_CLKS-1) begin
                     sm_vec <= SEND_1_LO;
                 end else begin
                     sm_vec <= SEND_1_HI;
                 end
 
             SEND_1_LO:
-                if (counter == T1L_CLKS) begin
+                if (counter == T1L_CLKS-2) begin // -2 to account for lo time in idle
                     sm_vec <= IDLE;
                 end else begin
                     sm_vec <= SEND_1_LO;
                 end
 
             SEND_RESET:
-                if (counter == RESET_CLKS) begin
+                if (counter == RESET_CLKS-1) begin
                     sm_vec <= IDLE;
                 end else begin
                     sm_vec <= SEND_RESET;
@@ -109,35 +112,35 @@ always @ (posedge clk) begin
             begin
                 color_pop <= 1'b0;
                 Dout <= 1'b1;
-                counter <= counter < T0H_CLKS ? counter + 1 : 0;
+                counter <= counter < T0H_CLKS-1 ? counter + 1 : 0;
             end
 
             SEND_0_LO:
             begin
                 color_pop <= 1'b0;
                 Dout <= 1'b0;
-                counter <= counter < T0L_CLKS ? counter + 1 : 0;
+                counter <= counter < T0L_CLKS-2 ? counter + 1 : 0; // -2 to account for lo time in idle
             end
                 
             SEND_1_HI:
             begin
                 color_pop <= 1'b0;
                 Dout <= 1'b1;
-                counter <= counter < T1H_CLKS ? counter + 1 : 0;
+                counter <= counter < T1H_CLKS-1 ? counter + 1 : 0;
             end
 
             SEND_1_LO:
             begin
                 color_pop <= 1'b0;
                 Dout <= 1'b0;
-                counter <= counter < T1L_CLKS ? counter + 1 : 0;
+                counter <= counter < T1L_CLKS-2 ? counter + 1 : 0; // -2 to account for lo time in idle
             end
 
             SEND_RESET:
             begin
                 color_pop <= 1'b0;
                 Dout <= 1'b0;
-                counter <= counter < RESET_CLKS ? counter + 1 : 0;
+                counter <= counter < RESET_CLKS-1 ? counter + 1 : 0;
             end
 
         endcase

@@ -10,7 +10,14 @@ module axis_to_ws2812bc #(
     parameter B_START_INDEX = 0,
 
     // FIFO Params
-    parameter FIFO_DEPTH = 1024
+    parameter FIFO_DEPTH = 1024,
+
+    // WS2812B/C Timing parameters
+    parameter T0H = 300, // Time in nanoseconds
+    parameter T1H = 790, // Time in nanoseconds
+    parameter T0L = 790, // Time in nanoseconds
+    parameter T1L = 790, // Time in nanoseconds
+    parameter RESET_TIME = 280000 // Time in nanoseconds
 ) (
     // Clock and reset
     input logic aclk,
@@ -74,7 +81,12 @@ olo_base_fifo_sync # (
 ws2812bc_master_parallel_in #(
     // Clock frequency in Hz
     .FREQ_HZ(FREQ_HZ),
-    .DATA_WIDTH(TDATA_WIDTH)
+    .DATA_WIDTH(TDATA_WIDTH),
+    .T0H(T0H),// Time in nanoseconds
+    .T1H(T1H),// Time in nanoseconds
+    .T0L(T0L),// Time in nanoseconds
+    .T1L(T1L),// Time in nanoseconds
+    .RESET_TIME(RESET_TIME)// Time in nanoseconds
 ) ws_master_parallel (
     // Clock and reset
     .clk(aclk),

@@ -1,9 +1,16 @@
 `timescale 1ns/1ps
 
-import ws2812bc_pkg::*;
-
 module ws2812bc #(
-    parameter NAME ="LED 0"
+    parameter NAME ="LED 0",
+    parameter T0H_MAX = 380, // Time in nanoseconds
+    parameter T0H_MIN = 220, // Time in nanoseconds
+    parameter T1H_MAX = 1000, // Time in nanoseconds
+    parameter T1H_MIN = 580, // Time in nanoseconds
+    parameter T0L_MAX = 1000, // Time in nanoseconds
+    parameter T0L_MIN = 580, // Time in nanoseconds
+    parameter T1L_MAX = 1000, // Time in nanoseconds
+    parameter T1L_MIN = 580, // Time in nanoseconds
+    parameter RESET_TIME = 280000 // Time in nanoseconds
 ) (
     input logic Din,
     output logic Dout,
@@ -11,17 +18,6 @@ module ws2812bc #(
     output logic done,
     output logic [0:23] color_out
 );
-
-localparam timescale = 1000000000;
-localparam T0H_MIN = $rtoi(T0H_MIN_SEC * timescale);
-localparam T0H_MAX = $rtoi(T0H_MAX_SEC * timescale);
-localparam T1H_MIN = $rtoi(T1H_MIN_SEC * timescale);
-localparam T1H_MAX = $rtoi(T1H_MAX_SEC * timescale);
-localparam T0L_MIN = $rtoi(T0L_MIN_SEC * timescale);
-localparam T0L_MAX = $rtoi(T0L_MAX_SEC * timescale);
-localparam T1L_MIN = $rtoi(T1L_MIN_SEC * timescale);
-localparam T1L_MAX = $rtoi(T1L_MAX_SEC * timescale);
-localparam RESET_TIME = $rtoi(RESET_TIME_SEC * timescale);
 
 integer i = 0;
 integer starttime = 0, totaltime = 0, maxtime = 0;

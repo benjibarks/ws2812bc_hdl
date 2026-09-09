@@ -21,7 +21,6 @@ set_property file_type {VHDL 2008} [get_files  ../../submodules/open-logic/src/b
 
 set_property SOURCE_SET sources_1 [get_filesets sim_1]
 add_files -fileset sim_1 -norecurse {
-    ./tb/ws2812tb_pkg.sv 
     ./tb/tb_axis_to_ws2812bc.sv 
     ../models/ws2812bc.sv
 }

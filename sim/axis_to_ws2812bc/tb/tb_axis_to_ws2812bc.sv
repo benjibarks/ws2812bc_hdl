@@ -5,18 +5,42 @@ import axi4stream_vip_0_pkg::*;
 
 module tb_axis_to_ws3812bc();
 
+// Clock parameters
 localparam FREQ_HZ = 100000000;
-localparam TDATA_WIDTH = 24;
-localparam R_BYTE_INDEX = 2;
-localparam G_BYTE_INDEX = 1;
-localparam B_BYTE_INDEX = 0;
-localparam FIFO_DEPTH = 256;
+localparam CLK_PERIOD = (1000000000 / FREQ_HZ);
+localparam HALF_PERIOD = CLK_PERIOD / 2;
 
+// WS2812B/C timing bounds for model
+localparam T0H_MAX = 380; // Time in nanoseconds
+localparam T0H_MIN = 220; // Time in nanoseconds
+localparam T1H_MAX = 1000; // Time in nanoseconds
+localparam T1H_MIN = 580; // Time in nanoseconds
+localparam T0L_MAX = 1000; // Time in nanoseconds
+localparam T0L_MIN = 580; // Time in nanoseconds
+localparam T1L_MAX = 1000; // Time in nanoseconds
+localparam T1L_MIN = 580; // Time in nanoseconds
+localparam RESET_TIME = 280000; // Time in nanoseconds
+
+// WS2812B/C timing for DUT (currently modeling a fast WS2812C driver)
+localparam T0H = 250; // Time in nanoseconds
+localparam T1H = 600; // Time in nanoseconds
+localparam T0L = 600; // Time in nanoseconds
+localparam T1L = 600; // Time in nanoseconds
+localparam RESET_TIME_DUT = 280000; // Time in nanoseconds
+
+// LED parameters
 localparam NUM_LEDS = 8;
 localparam NUM_REFRESH = 4;
 
-localparam CLK_PERIOD = (1000000000 / FREQ_HZ);
-localparam HALF_PERIOD = CLK_PERIOD / 2;
+// Color data format
+localparam TDATA_WIDTH = 24;
+localparam COLOR_WIDTH = 8;
+localparam R_START_INDEX = 2;
+localparam G_START_INDEX = 1;
+localparam B_START_INDEX = 0;
+
+// FIFO depth
+localparam FIFO_DEPTH = 256;
 
 logic aclk = 1'b0;
 logic aresetn = 1'b0;
@@ -50,7 +74,16 @@ genvar i;
 generate 
     for (i = 0; i < NUM_LEDS; i++) begin
         ws2812bc #(
-            .NAME($sformatf("LED %0d", i))
+            .NAME($sformatf("LED %0d", i)),
+            .T0H_MAX(T0H_MAX), // Time in nanoseconds
+            .T0H_MIN(T0H_MIN), // Time in nanoseconds
+            .T1H_MAX(T1H_MAX), // Time in nanoseconds
+            .T1H_MIN(T1H_MIN), // Time in nanoseconds
+            .T0L_MAX(T0L_MAX), // Time in nanoseconds
+            .T0L_MIN(T0L_MIN), // Time in nanoseconds
+            .T1L_MAX(T1L_MAX), // Time in nanoseconds
+            .T1L_MIN(T1L_MIN), // Time in nanoseconds
+            .RESET_TIME(RESET_TIME) // Time in nanoseconds
         ) led (
             .Din(Din[i]),
             .Dout(Din[i+1]),
@@ -110,12 +143,20 @@ axis_to_ws2812bc #(
 
     // AXI-S Data bus format
     .TDATA_WIDTH(TDATA_WIDTH),
-    .R_BYTE_INDEX(R_BYTE_INDEX),
-    .G_BYTE_INDEX(G_BYTE_INDEX),
-    .B_BYTE_INDEX(B_BYTE_INDEX),
+    .COLOR_WIDTH(COLOR_WIDTH),
+    .R_BYTE_INDEX(R_START_INDEX),
+    .G_BYTE_INDEX(G_START_INDEX),
+    .B_BYTE_INDEX(B_START_INDEX),
 
     // FIFO Params
-    .FIFO_DEPTH(FIFO_DEPTH)
+    .FIFO_DEPTH(FIFO_DEPTH),
+
+    // WS2812B/C Timing parameters
+    .T0H(T0H),// Time in nanoseconds
+    .T1H(T1H),// Time in nanoseconds
+    .T0L(T0L),// Time in nanoseconds
+    .T1L(T1L),// Time in nanoseconds
+    .RESET_TIME(RESET_TIME_DUT)// Time in nanoseconds
 ) DUT (
     // Clock and reset
     .aclk(aclk),
