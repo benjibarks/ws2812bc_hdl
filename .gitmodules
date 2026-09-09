@@ -1,3 +1,6 @@
 [submodule "submodules/oh"]
 	path = submodules/oh
 	url = https://github.com/aolofsson/oh.git
+[submodule "submodules/open-logic"]
+	path = submodules/open-logic
+	url = https://github.com/open-logic/open-logic.git

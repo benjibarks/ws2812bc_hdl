@@ -22,6 +22,8 @@ localparam COUNTER_WIDTH = $clog2(DATA_WIDTH);
 typedef enum logic [1:0] {IDLE, LOAD_PARALLEL_DATA, SHIFT_SERIAL_DATA} ws2812_par_states;
 ws2812_par_states sm_vec;
 
+logic [DATA_WIDTH-1:0] grb_color_parallel;
+logic end_frame_current;
 logic grb_color_serial;
 logic serial_data_valid;
 logic load_parallel_data;
@@ -36,7 +38,7 @@ oh_par2ser #(
 ) par2ser (
     .clk(clk), // sampling clock
     .nreset(resetn), // async active low reset
-    .din(grb_color), // parallel data
+    .din(grb_color_parallel), // parallel data
     .dout(grb_color_serial), // serial output data
     .access_out(serial_data_valid),// output data valid
     .load(load_parallel_data), // load parallel data (priority)
@@ -71,7 +73,7 @@ always @ (posedge clk) begin
     if (resetn == 1'b0) begin
         end_frame_counter <= 'b0;
     end else begin
-        if (end_frame & shift_serial) begin
+        if (end_frame_current & shift_serial) begin
             if (end_frame_counter == DATA_WIDTH-1) begin
                 end_frame_counter <= 'b0;
             end else begin
@@ -122,11 +124,15 @@ always @ (posedge clk) begin
         color_pop <= 1'b0;
         load_parallel_data <= 1'b0;
         end_frame_serial <= 1'b0;
+        grb_color_parallel <= 'b0;
+        end_frame_current <= 1'b0;
     end else begin
         case (sm_vec)
             IDLE:
             begin
                 color_pop <= ~color_empty;
+                grb_color_parallel <= grb_color;
+                end_frame_current <= end_frame;
                 load_parallel_data <= 1'b0;
                 end_frame_serial <= 1'b0;
             end

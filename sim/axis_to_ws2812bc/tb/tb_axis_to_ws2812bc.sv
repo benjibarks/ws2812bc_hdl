@@ -7,7 +7,6 @@ module tb_axis_to_ws3812bc();
 
 localparam FREQ_HZ = 100000000;
 localparam TDATA_WIDTH = 24;
-localparam TSTRB_WIDTH = 3;
 localparam R_BYTE_INDEX = 2;
 localparam G_BYTE_INDEX = 1;
 localparam B_BYTE_INDEX = 0;
@@ -22,7 +21,6 @@ localparam HALF_PERIOD = CLK_PERIOD / 2;
 logic aclk = 1'b0;
 logic aresetn = 1'b0;
 logic [TDATA_WIDTH-1:0] tdata;
-logic [TSTRB_WIDTH-1:0] tstrb;
 logic tvalid, tlast, tready;
 
 logic [7:0] tdata_3d [NUM_REFRESH-1:0] [NUM_LEDS-1:0] [2:0];
@@ -44,7 +42,6 @@ axi4stream_vip_0 axis_vip (
     .m_axis_tvalid(tvalid),
     .m_axis_tready(tready),
     .m_axis_tdata(tdata),
-    .m_axis_tstrb(tstrb),
     .m_axis_tlast(tlast)
 );
 
@@ -94,7 +91,6 @@ initial begin : START_axi4stream_vip_0_MASTER
             WR_TRANSACTION_FAIL: assert(wr_transaction.randomize());
             wr_transaction.get_data(tdata_3d[j][i]);
             wr_transaction.set_delay(0);
-            wr_transaction.set_strb({1'b1, 1'b1, 1'b1});
             if(i == NUM_LEDS-1) begin
                 // set tlast to 1
                 wr_transaction.set_last(1);
@@ -114,7 +110,6 @@ axis_to_ws2812bc #(
 
     // AXI-S Data bus format
     .TDATA_WIDTH(TDATA_WIDTH),
-    .TSTRB_WIDTH(TSTRB_WIDTH),
     .R_BYTE_INDEX(R_BYTE_INDEX),
     .G_BYTE_INDEX(G_BYTE_INDEX),
     .B_BYTE_INDEX(B_BYTE_INDEX),
@@ -128,7 +123,6 @@ axis_to_ws2812bc #(
 
     // AXI-S
     .tdata(tdata),
-    .tstrb(tstrb),
     .tvalid(tvalid),
     .tlast(tlast),
     .tready(tready),
