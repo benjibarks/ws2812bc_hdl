@@ -2,7 +2,7 @@
 <spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <spirit:vendor>user.org</spirit:vendor>
   <spirit:library>ws2812bc_hdl</spirit:library>
-  <spirit:name>axis_to_ws2812b</spirit:name>
+  <spirit:name>axis_to_ws2812c</spirit:name>
   <spirit:version>1.0</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
@@ -85,7 +85,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>ASSOCIATED_BUSIF</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.ACLK.ASSOCIATED_BUSIF">interface_axis</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.ACLK.ASSOCIATED_BUSIF">interface_axis:S_AXIS</spirit:value>
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>ASSOCIATED_RESET</spirit:name>
@@ -112,7 +112,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>51cde91b</spirit:value>
+            <spirit:value>a2ed991a</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -128,7 +128,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>3fe911d2</spirit:value>
+            <spirit:value>a2ed991a</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -142,7 +142,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>74bf5393</spirit:value>
+            <spirit:value>0c6a1425</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -289,27 +289,27 @@
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>T0H</spirit:name>
         <spirit:displayName>T0h</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T0H">400</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T0H">300</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>T1H</spirit:name>
         <spirit:displayName>T1h</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T1H">850</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T1H">790</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>T0L</spirit:name>
         <spirit:displayName>T0l</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T0L">850</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T0L">790</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>T1L</spirit:name>
         <spirit:displayName>T1l</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T1L">400</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.T1L">790</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>RESET_TIME</spirit:name>
         <spirit:displayName>Reset Time</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.RESET_TIME">51000</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.RESET_TIME">281000</spirit:value>
       </spirit:modelParameter>
     </spirit:modelParameters>
   </spirit:model>
@@ -323,11 +323,6 @@
   <spirit:fileSets>
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
-      <spirit:file>
-        <spirit:name>src/PYNQ-Z2.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
       <spirit:file>
         <spirit:name>src/oh_par2ser.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
@@ -378,6 +373,47 @@
         <spirit:fileType>systemVerilogSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_c9e8dee4</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../hdl/axis_to_ws2812bc.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/oh/stdlib/rtl/oh_par2ser.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../hdl/ws2812bc_master_parallel_in.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../hdl/ws2812bc_master_serial_in.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_array.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_math.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_attribute.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_string.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_ram_sdp.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_fifo_sync.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_7f2b1623</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -432,18 +468,58 @@
         <spirit:fileType>systemVerilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
+      <spirit:file>
+        <spirit:name>../../hdl/axis_to_ws2812bc.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/oh/stdlib/rtl/oh_par2ser.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../hdl/ws2812bc_master_parallel_in.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../hdl/ws2812bc_master_serial_in.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_array.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_math.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_attribute.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_string.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_ram_sdp.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_fifo_sync.vhd</spirit:name>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+      </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/axis_to_ws2812b_v1_0.tcl</spirit:name>
+        <spirit:name>xgui/axis_to_ws2812c_v1_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_74bf5393</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_0c6a1425</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>WS2812B LED driver with AXIS receiver interface.</spirit:description>
+  <spirit:description>WS2812C LED driver with AXIS receiver interface.</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>FREQ_HZ</spirit:name>
@@ -452,7 +528,7 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>TDATA_WIDTH</spirit:name>
-      <spirit:displayName>TDATA Width</spirit:displayName>
+      <spirit:displayName>TDATA WIdth</spirit:displayName>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.TDATA_WIDTH">24</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
@@ -483,27 +559,27 @@
     <spirit:parameter>
       <spirit:name>T0H</spirit:name>
       <spirit:displayName>T0H (ns)</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T0H" spirit:minimum="250" spirit:maximum="550" spirit:rangeType="long">400</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T0H" spirit:minimum="220" spirit:maximum="380" spirit:rangeType="long">300</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>T1H</spirit:name>
       <spirit:displayName>T1H (ns)</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T1H" spirit:minimum="700" spirit:maximum="1000" spirit:rangeType="long">850</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T1H" spirit:minimum="580" spirit:maximum="1000" spirit:rangeType="long">790</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>T0L</spirit:name>
       <spirit:displayName>T0L (ns)</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T0L" spirit:minimum="700" spirit:maximum="1000" spirit:rangeType="long">850</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T0L" spirit:minimum="580" spirit:maximum="1000" spirit:rangeType="long">790</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>T1L</spirit:name>
       <spirit:displayName>T1L (ns)</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T1L" spirit:minimum="250" spirit:maximum="550" spirit:rangeType="long">400</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.T1L" spirit:minimum="580" spirit:maximum="1000" spirit:rangeType="long">790</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>RESET_TIME</spirit:name>
       <spirit:displayName>RES (ns)</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.RESET_TIME" spirit:minimum="50000" spirit:maximum="1000000000" spirit:rangeType="long">51000</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.RESET_TIME" spirit:minimum="280000" spirit:maximum="1000000000" spirit:rangeType="long">281000</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
@@ -542,21 +618,18 @@
       <xilinx:taxonomies>
         <xilinx:taxonomy>/FPGA_Features_and_Design/IO_Interfaces</xilinx:taxonomy>
       </xilinx:taxonomies>
-      <xilinx:displayName>AXIS to WS2812B Driver</xilinx:displayName>
+      <xilinx:displayName>AXIS to WS2812C Driver</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>5</xilinx:coreRevision>
-      <xilinx:upgrades>
-        <xilinx:canUpgradeFrom>user.org:user:axis_to_ws2812bc:1.0</xilinx:canUpgradeFrom>
-      </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2026-09-11T18:28:18Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>8</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2026-09-11T18:22:53Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2024.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="214891e9"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="efa31981"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="fb2ed841"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="0b560e6a"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="16232403"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="4deaf260"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="071d83f3"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="2f6ae424"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="cd24e772"/>
       <xilinx:targetDRCs>
         <xilinx:targetDRC xilinx:tool="ipi">
           <xilinx:targetDRCOption xilinx:name="ignore_freq_hz" xilinx:value="false"/>

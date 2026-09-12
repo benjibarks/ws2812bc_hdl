@@ -134,7 +134,7 @@ xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:xlconstant:1.1\
 xilinx.com:ip:axis_switch:1.1\
 user.org:ws2812bc_hdl:led_pattern_emitter:1.0\
-user.org:ws2812bc_hdl:axis_to_ws2812c_fast:1.0\
+user.org:ws2812bc_hdl:axis_to_ws2812c:1.0\
 "
 
    set list_ips_missing ""
@@ -304,11 +304,13 @@ proc create_root_design { parentCell } {
   ] $xlconstant_0_4wide
 
 
-  # Create instance: axis_to_ws2812c_fast_0, and set properties
-  set axis_to_ws2812c_fast_0 [ create_bd_cell -type ip -vlnv user.org:ws2812bc_hdl:axis_to_ws2812c_fast:1.0 axis_to_ws2812c_fast_0 ]
+  # Create instance: axis_to_ws2812c_0, and set properties
+  set axis_to_ws2812c_0 [ create_bd_cell -type ip -vlnv user.org:ws2812bc_hdl:axis_to_ws2812c:1.0 axis_to_ws2812c_0 ]
+  set_property CONFIG.FREQ_HZ {125000000} $axis_to_ws2812c_0
+
 
   # Create interface connections
-  connect_bd_intf_net -intf_net axis_switch_0_M00_AXIS [get_bd_intf_pins axis_switch_0/M00_AXIS] [get_bd_intf_pins axis_to_ws2812c_fast_0/S_AXIS]
+  connect_bd_intf_net -intf_net axis_switch_0_M00_AXIS [get_bd_intf_pins axis_switch_0/M00_AXIS] [get_bd_intf_pins axis_to_ws2812c_0/S_AXIS]
   connect_bd_intf_net -intf_net led_pattern_emitter_0_M_AXIS [get_bd_intf_pins led_pattern_emitter_0/M_AXIS] [get_bd_intf_pins axis_switch_0/S00_AXIS]
   connect_bd_intf_net -intf_net led_pattern_emitter_1_M_AXIS [get_bd_intf_pins led_pattern_emitter_1/M_AXIS] [get_bd_intf_pins axis_switch_0/S01_AXIS]
   connect_bd_intf_net -intf_net led_pattern_emitter_2_M_AXIS [get_bd_intf_pins led_pattern_emitter_2/M_AXIS] [get_bd_intf_pins axis_switch_0/S02_AXIS]
@@ -319,11 +321,11 @@ proc create_root_design { parentCell } {
   connect_bd_net -net GREEN_PATTERN_dout [get_bd_pins GREEN_PATTERN/dout] [get_bd_pins led_pattern_emitter_1/pattern]
   connect_bd_net -net RAINBOW_PATTERN_dout [get_bd_pins RAINBOW_PATTERN/dout] [get_bd_pins led_pattern_emitter_3/pattern]
   connect_bd_net -net RED_PATTERN_dout [get_bd_pins RED_PATTERN/dout] [get_bd_pins led_pattern_emitter_0/pattern]
-  connect_bd_net -net axis_to_ws2812c_fast_0_Dout [get_bd_pins axis_to_ws2812c_fast_0/Dout] [get_bd_ports Dout]
+  connect_bd_net -net axis_to_ws2812c_0_Dout [get_bd_pins axis_to_ws2812c_0/Dout] [get_bd_ports Dout]
   connect_bd_net -net clk_in1_0_1 [get_bd_ports sysclk] [get_bd_pins clk_wiz_0/clk_in1]
-  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axis_switch_0/aclk] [get_bd_ports clkout_125] [get_bd_pins axis_to_ws2812c_fast_0/aclk] [get_bd_pins led_pattern_emitter_0/m_axis_aclk] [get_bd_pins led_pattern_emitter_1/m_axis_aclk] [get_bd_pins led_pattern_emitter_2/m_axis_aclk] [get_bd_pins led_pattern_emitter_3/m_axis_aclk]
+  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axis_switch_0/aclk] [get_bd_ports clkout_125] [get_bd_pins led_pattern_emitter_0/m_axis_aclk] [get_bd_pins led_pattern_emitter_1/m_axis_aclk] [get_bd_pins led_pattern_emitter_2/m_axis_aclk] [get_bd_pins led_pattern_emitter_3/m_axis_aclk] [get_bd_pins axis_to_ws2812c_0/aclk]
   connect_bd_net -net clk_wiz_0_locked [get_bd_pins clk_wiz_0/locked] [get_bd_pins proc_sys_reset_0/dcm_locked]
-  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axis_switch_0/aresetn] [get_bd_pins axis_to_ws2812c_fast_0/aresetn]
+  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axis_switch_0/aresetn] [get_bd_pins axis_to_ws2812c_0/aresetn]
   connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_ports rstout_125_n] [get_bd_pins led_pattern_emitter_0/m_axis_aresetn] [get_bd_pins led_pattern_emitter_1/m_axis_aresetn] [get_bd_pins led_pattern_emitter_2/m_axis_aresetn] [get_bd_pins led_pattern_emitter_3/m_axis_aresetn]
   connect_bd_net -net reset_0_1 [get_bd_ports reset] [get_bd_pins clk_wiz_0/reset] [get_bd_pins proc_sys_reset_0/ext_reset_in]
   connect_bd_net -net send_0_1 [get_bd_ports push_button_blue] [get_bd_pins led_pattern_emitter_2/send]
@@ -340,7 +342,6 @@ proc create_root_design { parentCell } {
   # Restore current instance
   current_bd_instance $oldCurInst
 
-  validate_bd_design
   save_bd_design
 }
 # End of create_root_design()
@@ -352,4 +353,6 @@ proc create_root_design { parentCell } {
 
 create_root_design ""
 
+
+common::send_gid_msg -ssname BD::TCL -id 2053 -severity "WARNING" "This Tcl script was generated from a block design that has not been validated. It is possible that design <$design_name> may result in errors during validation."
 

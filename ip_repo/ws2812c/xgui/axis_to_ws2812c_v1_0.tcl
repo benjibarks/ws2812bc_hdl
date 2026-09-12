@@ -7,31 +7,29 @@ proc init_gui { IPINST } {
   set_property tooltip {Frequency in Hz} ${FREQ_HZ}
   ipgui::add_param $IPINST -name "FIFO_DEPTH" -parent ${Page_0}
   #Adding Group
-  set WS2812B_Timing [ipgui::add_group $IPINST -name "WS2812B Timing" -parent ${Page_0}]
-  set_property tooltip {Timing parameters of the WS2812B interface. Using the exact maximum/minimum values is not recommended.} ${WS2812B_Timing}
-  ipgui::add_static_text $IPINST -name "WARNING:" -parent ${WS2812B_Timing} -text {WARNING: Usiiing the exact maximum or minimum values is not recommended}
-  set T0H [ipgui::add_param $IPINST -name "T0H" -parent ${WS2812B_Timing}]
+  set WS2812C_Timing [ipgui::add_group $IPINST -name "WS2812C Timing" -parent ${Page_0}]
+  set_property tooltip {Timing parameters of the WS2812C driver (using the exact maximum or minimum values is not recommended)} ${WS2812C_Timing}
+  ipgui::add_static_text $IPINST -name "WARNING:" -parent ${WS2812C_Timing} -text {WARNING: Using the exact maximum or minimum values is not recommended}
+  set T0H [ipgui::add_param $IPINST -name "T0H" -parent ${WS2812C_Timing}]
   set_property tooltip {T0H time in nanoseconds (using the exact minimum or maximum is not recommended)} ${T0H}
-  set T1H [ipgui::add_param $IPINST -name "T1H" -parent ${WS2812B_Timing}]
-  set_property tooltip {T1H time in nanoseconds (using the exact minimum or maximum is not recommended)} ${T1H}
-  set T0L [ipgui::add_param $IPINST -name "T0L" -parent ${WS2812B_Timing}]
+  set T0L [ipgui::add_param $IPINST -name "T0L" -parent ${WS2812C_Timing}]
   set_property tooltip {T0L time in nanoseconds (using the exact minimum or maximum is not recommended)} ${T0L}
-  set T1L [ipgui::add_param $IPINST -name "T1L" -parent ${WS2812B_Timing}]
+  set T1H [ipgui::add_param $IPINST -name "T1H" -parent ${WS2812C_Timing}]
+  set_property tooltip {T1H time in nanoseconds (using the exact minimum or maximum is not recommended)} ${T1H}
+  set T1L [ipgui::add_param $IPINST -name "T1L" -parent ${WS2812C_Timing}]
   set_property tooltip {T1L time in nanoseconds (using the exact minimum or maximum is not recommended)} ${T1L}
-  set RESET_TIME [ipgui::add_param $IPINST -name "RESET_TIME" -parent ${WS2812B_Timing}]
+  set RESET_TIME [ipgui::add_param $IPINST -name "RESET_TIME" -parent ${WS2812C_Timing}]
   set_property tooltip {RES time in nanoseconds (using the exact minimum is not recommended)} ${RESET_TIME}
 
   #Adding Group
-  set Basic [ipgui::add_group $IPINST -name "Basic" -parent ${Page_0} -display_name {Data Bus}]
-  set_property tooltip {Data Bus Color Format} ${Basic}
-  set TDATA_WIDTH [ipgui::add_param $IPINST -name "TDATA_WIDTH" -parent ${Basic}]
+  set Data_Bus [ipgui::add_group $IPINST -name "Data Bus" -parent ${Page_0}]
+  set_property tooltip {Format of the color data bus} ${Data_Bus}
+  set TDATA_WIDTH [ipgui::add_param $IPINST -name "TDATA_WIDTH" -parent ${Data_Bus}]
   set_property tooltip {Width of TDATA} ${TDATA_WIDTH}
-  set R_START_INDEX [ipgui::add_param $IPINST -name "R_START_INDEX" -parent ${Basic}]
+  set R_START_INDEX [ipgui::add_param $IPINST -name "R_START_INDEX" -parent ${Data_Bus}]
   set_property tooltip {Start index of 8-bit red on the data bus} ${R_START_INDEX}
-  set G_START_INDEX [ipgui::add_param $IPINST -name "G_START_INDEX" -parent ${Basic}]
-  set_property tooltip {Start index of 8-bit green on the data bus} ${G_START_INDEX}
-  set B_START_INDEX [ipgui::add_param $IPINST -name "B_START_INDEX" -parent ${Basic}]
-  set_property tooltip {Start index of 8-bit blue on the data bus} ${B_START_INDEX}
+  ipgui::add_param $IPINST -name "G_START_INDEX" -parent ${Data_Bus}
+  ipgui::add_param $IPINST -name "B_START_INDEX" -parent ${Data_Bus}
 
 
 
