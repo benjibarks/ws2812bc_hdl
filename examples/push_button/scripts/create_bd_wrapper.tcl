@@ -1,0 +1,2 @@
+make_wrapper -files [get_files ./vivado_project/push_button.srcs/sources_1/bd/push_button_bd/push_button_bd.bd] -top
+add_files -norecurse ./vivado_project/push_button.gen/sources_1/bd/push_button_bd/hdl/push_button_bd_wrapper.v
