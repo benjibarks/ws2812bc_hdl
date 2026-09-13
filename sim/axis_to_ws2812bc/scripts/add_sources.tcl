@@ -1,7 +1,4 @@
 add_files -norecurse {
-    ../../hdl/axis_to_ws2812bc.sv 
-    ../../hdl/ws2812bc_master_parallel_in.sv 
-    ../../hdl/ws2812bc_master_serial_in.sv
     ../../submodules/open-logic/src/base/vhdl/olo_base_pkg_array.vhd
     ../../submodules/open-logic/src/base/vhdl/olo_base_pkg_attribute.vhd
     ../../submodules/open-logic/src/base/vhdl/olo_base_pkg_math.vhd
@@ -9,6 +6,9 @@ add_files -norecurse {
     ../../submodules/open-logic/src/base/vhdl/olo_base_ram_sdp.vhd
     ../../submodules/open-logic/src/base/vhdl/olo_base_fifo_sync.vhd
     ../../submodules/oh/stdlib/rtl/oh_par2ser.v
+    ../../hdl/ws2812bc_master/ws2812bc_master_serial_in.sv
+    ../../hdl/ws2812bc_master/ws2812bc_master_parallel_in.sv
+    ../../hdl/axi/axis_to_ws2812bc.sv
 }
 update_compile_order -fileset sources_1
 
