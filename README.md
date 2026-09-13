@@ -12,18 +12,10 @@ Source the desired HDL files from the `hdl` directory. Dependency trees are docu
 In Vivado, include the `ip_repos` directory as an IP repository to use the available sources as packaged IPs in the IPI or code.
 
 ## Directory Structure
-|
---examples      - Example designs
-|
---hdl           - HDL source code
-|
---ip_repo       - Vivao IP repository
-|
---sim           - Simulation files
-|
---submodules    - 3rd party code repsoitories
-|
---LICENSE       - License file
-|
---README.md     - You are here
-
+- `examples`    - Example designs
+- `hdl`         - HDL source code
+- `ip_repo`     - Vivao IP repository
+- `sim`         - Simulation files
+- `submodules`  - 3rd party code repsoitories
+- `LICENSE`     - License file
+- `README.md`   - You are here
