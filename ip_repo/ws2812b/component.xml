@@ -91,10 +91,6 @@
           <spirit:name>ASSOCIATED_RESET</spirit:name>
           <spirit:value spirit:id="BUSIFPARAM_VALUE.ACLK.ASSOCIATED_RESET">aresetn</spirit:value>
         </spirit:parameter>
-        <spirit:parameter>
-          <spirit:name>FREQ_HZ</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.ACLK.FREQ_HZ">FREQ_HZ</spirit:value>
-        </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
   </spirit:busInterfaces>
@@ -544,15 +540,15 @@
       </xilinx:taxonomies>
       <xilinx:displayName>AXIS to WS2812B Driver</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>5</xilinx:coreRevision>
+      <xilinx:coreRevision>7</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>user.org:user:axis_to_ws2812bc:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2026-09-11T18:28:18Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2026-09-12T18:39:32Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2024.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="214891e9"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="3311460a"/>
       <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="efa31981"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="16232403"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="4deaf260"/>

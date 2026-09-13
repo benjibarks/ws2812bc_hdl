@@ -91,10 +91,6 @@
           <spirit:name>ASSOCIATED_RESET</spirit:name>
           <spirit:value spirit:id="BUSIFPARAM_VALUE.ACLK.ASSOCIATED_RESET">aresetn</spirit:value>
         </spirit:parameter>
-        <spirit:parameter>
-          <spirit:name>FREQ_HZ</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.ACLK.FREQ_HZ">FREQ_HZ</spirit:value>
-        </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
   </spirit:busInterfaces>
@@ -112,7 +108,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>a2ed991a</spirit:value>
+            <spirit:value>ee5c75b2</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -128,7 +124,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>a2ed991a</spirit:value>
+            <spirit:value>ee5c75b2</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -329,43 +325,38 @@
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/ws2812bc_master_parallel_in.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>src/ws2812bc_master_serial_in.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_pkg_array.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_pkg_math.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_pkg_attribute.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_pkg_string.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_ram_sdp.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_fifo_sync.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
@@ -375,45 +366,10 @@
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../hdl/axis_to_ws2812bc.sv</spirit:name>
+        <spirit:name>src/ws2812bc_master_parallel_in.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/oh/stdlib/rtl/oh_par2ser.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../hdl/ws2812bc_master_parallel_in.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../hdl/ws2812bc_master_serial_in.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_array.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_math.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_attribute.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_string.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_ram_sdp.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_fifo_sync.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-        <spirit:userFileType>CHECKSUM_7f2b1623</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_62f5ecf4</spirit:userFileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -424,43 +380,38 @@
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/ws2812bc_master_parallel_in.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>src/ws2812bc_master_serial_in.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_pkg_array.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_pkg_math.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_pkg_attribute.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_pkg_string.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_ram_sdp.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/olo_base_fifo_sync.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
@@ -469,44 +420,9 @@
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../hdl/axis_to_ws2812bc.sv</spirit:name>
+        <spirit:name>src/ws2812bc_master_parallel_in.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/oh/stdlib/rtl/oh_par2ser.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../hdl/ws2812bc_master_parallel_in.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../hdl/ws2812bc_master_serial_in.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_array.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_math.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_attribute.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_pkg_string.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_ram_sdp.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../submodules/open-logic/src/base/vhdl/olo_base_fifo_sync.vhd</spirit:name>
-        <spirit:userFileType>vhdlSource-2008</spirit:userFileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -620,13 +536,13 @@
       </xilinx:taxonomies>
       <xilinx:displayName>AXIS to WS2812C Driver</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>8</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2026-09-11T18:22:53Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>14</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2026-09-12T19:02:55Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2024.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="fb2ed841"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="0b560e6a"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="83a5cb3f"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="a8c3a2ec"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="16232403"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="2f6ae424"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="cd24e772"/>

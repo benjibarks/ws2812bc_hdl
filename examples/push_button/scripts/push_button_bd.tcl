@@ -211,13 +211,14 @@ proc create_root_design { parentCell } {
   set push_button_red [ create_bd_port -dir I push_button_red ]
   set push_button_rainbow [ create_bd_port -dir I push_button_rainbow ]
   set clkout_125 [ create_bd_port -dir O -type clk clkout_125 ]
-  set rstout_125_n [ create_bd_port -dir O -from 0 -to 0 -type rst rstout_125_n ]
+  set rstout_125 [ create_bd_port -dir O -from 0 -to 0 -type rst rstout_125 ]
 
   # Create instance: clk_wiz_0, and set properties
   set clk_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_0 ]
   set_property -dict [list \
     CONFIG.CLKOUT1_JITTER {119.348} \
     CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {125} \
+    CONFIG.CLK_OUT1_PORT {clk_out_125} \
     CONFIG.MMCM_CLKOUT0_DIVIDE_F {8.000} \
   ] $clk_wiz_0
 
@@ -323,10 +324,11 @@ proc create_root_design { parentCell } {
   connect_bd_net -net RED_PATTERN_dout [get_bd_pins RED_PATTERN/dout] [get_bd_pins led_pattern_emitter_0/pattern]
   connect_bd_net -net axis_to_ws2812c_0_Dout [get_bd_pins axis_to_ws2812c_0/Dout] [get_bd_ports Dout]
   connect_bd_net -net clk_in1_0_1 [get_bd_ports sysclk] [get_bd_pins clk_wiz_0/clk_in1]
-  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axis_switch_0/aclk] [get_bd_ports clkout_125] [get_bd_pins led_pattern_emitter_0/m_axis_aclk] [get_bd_pins led_pattern_emitter_1/m_axis_aclk] [get_bd_pins led_pattern_emitter_2/m_axis_aclk] [get_bd_pins led_pattern_emitter_3/m_axis_aclk] [get_bd_pins axis_to_ws2812c_0/aclk]
+  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins clk_wiz_0/clk_out_125] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axis_switch_0/aclk] [get_bd_ports clkout_125] [get_bd_pins led_pattern_emitter_0/m_axis_aclk] [get_bd_pins led_pattern_emitter_1/m_axis_aclk] [get_bd_pins led_pattern_emitter_2/m_axis_aclk] [get_bd_pins led_pattern_emitter_3/m_axis_aclk] [get_bd_pins axis_to_ws2812c_0/aclk]
   connect_bd_net -net clk_wiz_0_locked [get_bd_pins clk_wiz_0/locked] [get_bd_pins proc_sys_reset_0/dcm_locked]
-  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axis_switch_0/aresetn] [get_bd_pins axis_to_ws2812c_0/aresetn]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_ports rstout_125_n] [get_bd_pins led_pattern_emitter_0/m_axis_aresetn] [get_bd_pins led_pattern_emitter_1/m_axis_aresetn] [get_bd_pins led_pattern_emitter_2/m_axis_aresetn] [get_bd_pins led_pattern_emitter_3/m_axis_aresetn]
+  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axis_switch_0/aresetn]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins led_pattern_emitter_1/m_axis_aresetn] [get_bd_pins led_pattern_emitter_2/m_axis_aresetn] [get_bd_pins led_pattern_emitter_0/m_axis_aresetn] [get_bd_pins led_pattern_emitter_3/m_axis_aresetn] [get_bd_pins axis_to_ws2812c_0/aresetn]
+  connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_ports rstout_125]
   connect_bd_net -net reset_0_1 [get_bd_ports reset] [get_bd_pins clk_wiz_0/reset] [get_bd_pins proc_sys_reset_0/ext_reset_in]
   connect_bd_net -net send_0_1 [get_bd_ports push_button_blue] [get_bd_pins led_pattern_emitter_2/send]
   connect_bd_net -net send_1_1 [get_bd_ports push_button_green] [get_bd_pins led_pattern_emitter_1/send]
@@ -342,6 +344,7 @@ proc create_root_design { parentCell } {
   # Restore current instance
   current_bd_instance $oldCurInst
 
+  validate_bd_design
   save_bd_design
 }
 # End of create_root_design()
@@ -353,6 +356,4 @@ proc create_root_design { parentCell } {
 
 create_root_design ""
 
-
-common::send_gid_msg -ssname BD::TCL -id 2053 -severity "WARNING" "This Tcl script was generated from a block design that has not been validated. It is possible that design <$design_name> may result in errors during validation."
 

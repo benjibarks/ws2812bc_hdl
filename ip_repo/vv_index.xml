@@ -9,7 +9,7 @@
 		</DisplayName>
 		<Description value="WS2812B LED driver with AXIS receiver interface.">
 		</Description>
-		<CoreRevision value="5">
+		<CoreRevision value="7">
 		</CoreRevision>
 		<ComponentPath value="ws2812b/component.xml">
 		</ComponentPath>
@@ -137,7 +137,7 @@
 		</DisplayName>
 		<Description value="WS2812C LED driver with AXIS receiver interface.">
 		</Description>
-		<CoreRevision value="8">
+		<CoreRevision value="14">
 		</CoreRevision>
 		<ComponentPath value="ws2812c/component.xml">
 		</ComponentPath>

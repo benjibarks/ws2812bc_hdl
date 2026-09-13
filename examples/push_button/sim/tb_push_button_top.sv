@@ -47,7 +47,8 @@ endgenerate
 initial begin
     #(20 * CLK_PERIOD);
     reset <= 1'b0;
-    #CLK_PERIOD;
+
+    @(negedge DUT.rst_internal_125)
 
     push_button_red <= 1'b1;
     #(DEBOUNCE_TIME_NS + 2*CLK_PERIOD);
@@ -82,7 +83,7 @@ push_button_top #
     .push_button_green(push_button_green),
     .push_button_blue(push_button_blue),
     .push_button_rainbow(push_button_rainbow),
-    .Dout(Dout)
+    .Dout(Din[0])
 );
 
 endmodule
