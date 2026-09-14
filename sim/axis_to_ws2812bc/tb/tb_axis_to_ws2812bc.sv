@@ -53,7 +53,7 @@ logic [TDATA_WIDTH-1:0] tdata;
 logic tvalid, tlast, tready;
 
 logic [7:0] tdata_3d [NUM_REFRESH-1:0] [NUM_LEDS-1:0] [2:0];
-logic [0:23] leddata [NUM_LEDS-1:0];
+logic [0:23] led_data [NUM_LEDS-1:0];
 logic [NUM_LEDS-1:0] leds_done;
 integer check_num = 0;
 
@@ -94,19 +94,19 @@ generate
             .Dout(Din[i+1]),
             
             .done(leds_done[i]),
-            .color_out(leddata[i])
+            .color_out(led_data[i])
         );
     end
 endgenerate
 
 always @ (posedge leds_done[NUM_LEDS-1]) begin
     for (int i = 0; i < NUM_LEDS; i++) begin
-        assert(tdata_3d[check_num][i][1] == leddata[i][0:7]) 
-            else $display("ASSERT FAILED at LED #%0d G: AXI %x != LED %x", i, tdata_3d[check_num][i][1], leddata[i][0:7]);
-        assert(tdata_3d[check_num][i][0] == leddata[i][8:15]) 
-            else $display("ASSERT FAILED at LED #%0d R: AXI %x != LED %x", i, tdata_3d[check_num][i][0], leddata[i][8:15]);
-        assert(tdata_3d[check_num][i][2] == leddata[i][16:23]) 
-            else $display("ASSERT FAILED at LED #%0d B: AXI %x != LED %x", i, tdata_3d[check_num][i][2], leddata[i][16:23]);
+        assert(tdata_3d[check_num][i][1] == led_data[i][0:7]) 
+            else $display("ASSERT FAILED at LED #%0d G: AXI %x != LED %x", i, tdata_3d[check_num][i][1], led_data[i][0:7]);
+        assert(tdata_3d[check_num][i][0] == led_data[i][8:15]) 
+            else $display("ASSERT FAILED at LED #%0d R: AXI %x != LED %x", i, tdata_3d[check_num][i][0], led_data[i][8:15]);
+        assert(tdata_3d[check_num][i][2] == led_data[i][16:23]) 
+            else $display("ASSERT FAILED at LED #%0d B: AXI %x != LED %x", i, tdata_3d[check_num][i][2], led_data[i][16:23]);
     end
     check_num++;
 end

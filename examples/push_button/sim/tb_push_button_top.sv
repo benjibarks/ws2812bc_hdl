@@ -25,7 +25,7 @@ logic push_button_rainbow = 1'b0;
 
 logic [NUM_LEDS:0] Din;
 logic [NUM_LEDS-1:0] leds_done;
-logic [0:23] leddata [NUM_LEDS-1:0];
+logic [0:23] led_data [NUM_LEDS-1:0];
 logic all_LEDs_done;
 
 assign all_LEDs_done = &leds_done;
@@ -45,7 +45,7 @@ generate
             .Dout(Din[i+1]),
             
             .done(leds_done[i]),
-            .color_out(leddata[i])
+            .color_out(led_data[i])
         );
     end
 endgenerate
