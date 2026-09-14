@@ -14,19 +14,16 @@ Source code for the WS2812B/C driver.
 ## Dependencies
 Note: All Open Logic modules require the set of base packages `../../submodules/open-logic/src/base/vhdl/olo_base_pkg*`
 
-- `ws2812bc_master`
-    - `ws2812bc_master_parallel_in.sv`
-        - `ws2812bc_master_serial_in.sv`
-        - `../submodules/oh/stdlib/rtl/oh_par2ser.v`
-    - `ws2812bc_master_serial_in.sv`
-        - None
-- `axi`
-    - `axis_to_ws2812bc.sv`
-        - `ws2812bc_master/ws2812bc_master_parallel_in.sv`
-        - `../submodules/open-logic/src/base/vhdl/olo_base_ram_sdp.vhd`
-        - `../submodules/open-logic/src/base/vhdl/olo_base_fifo_sync.vhd`
-- `utilities`:
+- `axis_to_ws2812bc.sv`
+    - `ws2812bc_master/ws2812bc_master_parallel_in.sv`
+    - `../submodules/open-logic/src/base/vhdl/olo_base_ram_sdp.vhd`
+    - `../submodules/open-logic/src/base/vhdl/olo_base_fifo_sync.vhd`
+- `led_pattern_emitter_master_stream_v1_0_M_AXIS.v`
+    - None
+- `led_pattern_emitter.v`
     - `led_pattern_emitter_master_stream_v1_0_M_AXIS.v`
-        - None
-    - `led_pattern_emitter.v`
-        - `led_pattern_emitter_master_stream_v1_0_M_AXIS.v`
+- `ws2812bc_master_parallel_in.sv`
+    - `ws2812bc_master_serial_in.sv`
+    - `../submodules/oh/stdlib/rtl/oh_par2ser.v`
+- `ws2812bc_master_serial_in.sv`
+    - None
