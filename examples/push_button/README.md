@@ -13,6 +13,8 @@ One of four LED pattern emitters send color information to the WS2812C driver us
 The simulation testbench includes a chain of 150 WS2812C models to act as the LED strip. It drives each of the push buttons in succession, waiting until all LEDs have been driven before moving to the next push button. LED colors and behavior are printed to the simulation console.
 
 ## Example Hardware
+![Push button example hardware setup](doc/Full_HW.jpeg "Push button example hardware setup")
+![Push button example PYNQ FPGA dev board](doc/PYNQ.jpeg "Push button example PYNQ FPGA dev board")
 This example design was tested on hardware. The hardware setup included:
 
 - PYNQ-Z2 board
@@ -25,3 +27,7 @@ The WS2812C serial data output drives one pin of the PMOD A interface of the PYN
 
 Data, 5V Vdd, and GND connections are made using a 3-pin JST SM connector with separated power and ground lines for the breadboard. A 3-pin dupont socket is crimped to the data, power, and ground lines that connect to the JST SM and jumper wires crimped to a 3-pin dupont connector make the connection to the breadboard. The JST SM connects to the LED strip.
 
+![Push button example red pattern](doc/Red_HW.jpeg "Push button example red pattern")
+![Push button example green pattern](doc/Green_HW.jpeg "Push button example green pattern")
+![Push button example blue pattern](doc/Blue_HW.jpeg "Push button example blue pattern")
+![Push button example rainbow pattern](doc/Rainbow_HW.jpeg "Push button example rainbow pattern")
